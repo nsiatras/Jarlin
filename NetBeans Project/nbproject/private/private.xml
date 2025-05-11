@@ -5,6 +5,7 @@
         <group>
             <file>file:/C:/Development/Jarlin/NetBeans%20Project/src/jarlin/Jarlin.java</file>
             <file>file:/C:/Development/Jarlin/NetBeans%20Project/src/jarlin/Downloads/FileDownloader.java</file>
+            <file>file:/C:/Development/Jarlin/NetBeans%20Project/src/jarlin/Downloads/Events/IDownloadEventListener.java</file>
         </group>
     </open-files>
 </project-private>
