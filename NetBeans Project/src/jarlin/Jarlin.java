@@ -1,5 +1,6 @@
 package jarlin;
 
+import jarlin.AppPackaging.Linux.LinuxAppPackager;
 import jarlin.Downloads.Events.IDownloadEventListener;
 import jarlin.Downloads.FileDownloader;
 
@@ -10,13 +11,18 @@ import jarlin.Downloads.FileDownloader;
 public class Jarlin
 {
 
+    private static LinuxAppPackager fLinuxAppPackager;
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args)
     {
+        final String JarPath = "C:\\Program Files\\SourceRabbit\\RabbitCAM\\RabbitCAM.jar";
         final String JDKPath = "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.7%2B6/OpenJDK21U-jre_x64_linux_hotspot_21.0.7_6.tar.gz";
         final String savePath = "C:\\Users\\nsiat\\Desktop\\Test";
+
+        fLinuxAppPackager = new LinuxAppPackager(JarPath, savePath);
 
         FileDownloader downloader = new FileDownloader(JDKPath, savePath);
 
@@ -65,7 +71,14 @@ public class Jarlin
      */
     private static void BeginAppPackaging()
     {
-        
+        try
+        {
+            fLinuxAppPackager.PackTheApp();
+        }
+        catch (Exception ex)
+        {
+            System.err.println(ex.getMessage());
+        }
     }
 
 }

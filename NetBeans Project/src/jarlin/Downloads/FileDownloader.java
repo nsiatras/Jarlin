@@ -37,7 +37,6 @@ public class FileDownloader
 
     /**
      * Download the file
-     *
      */
     public void Download()
     {
