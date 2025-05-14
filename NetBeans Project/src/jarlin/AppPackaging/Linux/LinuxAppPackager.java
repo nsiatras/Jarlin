@@ -16,16 +16,17 @@ public class LinuxAppPackager extends AppPackager
 
     private String fOutputDir;
 
-    public LinuxAppPackager(String jarPath, String outputPath)
+    public LinuxAppPackager(String jreDownloadURL, String jarPath, String outputPath)
     {
-        super(jarPath, outputPath);
+        super(jreDownloadURL, jarPath, outputPath);
         fOutputDir = super.getOutputPath() + File.separator + "linux-pack";
     }
 
     @Override
     public void PackTheApp() throws Exception
     {
-
+        super.DownloadJRE();
+        
         Path outputDir = Paths.get(super.getOutputPath() + File.separator + "linux-pack");
         Files.deleteIfExists(outputDir);
         Files.createDirectories(outputDir);
@@ -37,6 +38,12 @@ public class LinuxAppPackager extends AppPackager
 
         FileUtilities.SaveTextFile(fOutputDir + File.separator + "run.sh", scriptContent);
 
+        // Copy the Jar
+        Path sourcePath = Path.of(super.getJarPath());
+        Path targetPath = Path.of(fOutputDir + File.separator + super.getJarFileName());
+        Files.copy(sourcePath, targetPath);
+
+        // Extract the JRE
     }
 
 }
