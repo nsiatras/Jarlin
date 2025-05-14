@@ -13,8 +13,8 @@ public abstract class AppPackager
 {
 
     private final String fJREDownloadURL;
-    private final String fJarPath, fOutputPath;
-    private final String fJarFileName;
+    protected String fDownloadedJREPath = "";
+    private final String fJarPath, fOutputPath, fJarFileName;
 
     public AppPackager(String jreDownloadURL, String jarPath, String outputPath)
     {
@@ -30,7 +30,7 @@ public abstract class AppPackager
     public void DownloadJRE()
     {
         ManualResetEvent evt = new ManualResetEvent(false);
-        
+
         FileDownloader downloader = new FileDownloader(fJREDownloadURL, fOutputPath);
 
         // Initialize a download event listener
@@ -45,6 +45,9 @@ public abstract class AppPackager
             @Override
             public void onDownloadComplete()
             {
+                // Set the fDownloadedJREPath
+                fDownloadedJREPath = fOutputPath + File.separator + fJREDownloadURL.substring(fJREDownloadURL.lastIndexOf("/") + 1);
+
                 System.out.println("");
                 System.out.println("JRE Download finished!");
                 evt.Set();
@@ -82,6 +85,47 @@ public abstract class AppPackager
     public abstract void PackTheApp() throws Exception;
 
     /**
+     * Returns the parent directory path, of the "bin" directory
+     *
+     * @param dir
+     * @return
+     */
+    public static String FindParentOfBin( File dir)
+    {
+
+        if (!dir.exists() || !dir.isDirectory())
+        {
+            return null;
+        }
+
+        File[] files = dir.listFiles();
+        if (files == null)
+        {
+            return null;
+        }
+
+        for (File file : files)
+        {
+            if (file.isDirectory())
+            {
+                if (file.getName().equals("bin"))
+                {
+                    return file.getParent();
+                }
+                else
+                {
+                    String result = FindParentOfBin(file);
+                    if (result != null)
+                    {
+                        return result;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
      * Returns the JAR path
      *
      * @return
@@ -109,5 +153,16 @@ public abstract class AppPackager
     public String getJarFileName()
     {
         return fJarFileName;
+    }
+
+    /**
+     * Returns the downloaded JRE path. This string is empty if the JRE has not
+     * been downloaded yet!
+     *
+     * @return
+     */
+    public String getDownloadedJREPath()
+    {
+        return fDownloadedJREPath;
     }
 }
