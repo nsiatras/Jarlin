@@ -46,7 +46,7 @@ public class LinuxAppPackager extends AppPackager
 
         // Extract the Downloaded JRE to fOutputDir/jre
         String extractedJREPath = fOutputDir + File.separator + "jre";
-        Unzipper.extract(super.getDownloadedJREPath(), extractedJREPath);
+        Unzipper.Extract(super.getDownloadedJREPath(), extractedJREPath);
 
         // Find "bin" path and move parent dir contents to "jre" 
         String parentOfBin = FindParentOfBin(new File(fOutputDir + File.separator + "jre"));

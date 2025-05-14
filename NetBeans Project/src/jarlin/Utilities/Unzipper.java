@@ -15,7 +15,7 @@ public class Unzipper
      * @param destDir directory to extract into
      * @throws IOException on error
      */
-    public static void extract(String archivePath, String destDir) throws IOException
+    public static void Extract(String archivePath, String destDir) throws IOException
     {
         String lower = archivePath.toLowerCase();
         if (lower.endsWith(".zip"))
